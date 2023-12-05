@@ -1,0 +1,80 @@
+<div class="modal-dialog">
+    <div class="modal-content">
+        <form method="PUT" id="onEdit" name="onEdit">
+        <div class="modal-header">
+            <h1 class="modal-title fs-5" id="addModalLabel">
+                Edit Call Details
+            </h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <div class="form-floating mb-3">
+                <select class="form-select" id="customer_id" name="customer_id" aria-label="Caller">
+                    {% for customer in user %}
+                    {% if call.customer_id == customer.value %}
+                    <option value="{{customer.value}}" selected>
+                        {{customer.display}}
+                    </option>
+                    {% else %}
+                    <option value="{{customer.value}}">
+                        {{customer.display}}
+                    </option>
+                    {% endif %}
+                    {% endfor %}
+                </select>
+                <label for="customer_id">
+                    Caller
+                </label>
+            </div>
+
+            <div class="form-floating mb-3">
+                <select class="form-select" id="customer_id" name="customer_id" aria-label="Call Recipient">
+                    {% for customer in customers %}
+                    {% if call.customer_id == customer.value %}
+                    <option value="{{customer.value}}" selected>
+                        {{customer.display}}
+                    </option>
+                    {% else %}
+                    <option value="{{customer.value}}">
+                        {{customer.display}}
+                    </option>
+                    {% endif %}
+                    {% endfor %}
+                </select>
+                <label for="customer_id">
+                    Call Recipient
+                </label>
+            </div>
+
+            <div class="form-floating mb-3">
+                <input class="form-control" placeholder="Leave a remark here" id="calling_time" name="calling_time" type="datetime-local" value="{{call.calling_time}}">
+                <label for="calling_time">
+                    Calling Time
+                </label>
+            </div>
+
+            <div class="form-floating mb-3">
+                <textarea class="form-control" placeholder="Leave a remark here" id="purpose_of_the_call" name="purpose_of_the_call" style="height: 100px;">{{call.purpose_of_the_call}}</textarea>
+                <label for="remark">
+                    Remark
+                </label>
+            </div>
+
+            <div class="form-floating mb-3">
+                <textarea class="form-control" placeholder="Leave a remark here" id="outcome_of_the_call" name="outcome_of_the_call" style="height: 100px;">{{call.outcome_of_the_call}}</textarea>
+                <label for="remark">
+                    Remark
+                </label>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">
+                Close
+            </button>
+            <button type="submit" id="submit" name="submit" class="btn btn-sm btn-success">
+                Submit
+            </button>
+        </div>
+        </form>
+    </div>
+</div>
