@@ -1,4 +1,4 @@
-<div class="modal-dialog">
+<div class="modal-dialog modal-lg">
     <div class="modal-content">
         <form method="PUT" id="onEdit" name="onEdit">
         <div class="modal-header">
@@ -7,28 +7,80 @@
             </h1>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
-        <div class="modal-body">
-            <div class="form-floating mb-3">
-                <select class="form-select" id="customer_id" name="customer_id" aria-label="Caller">
-                    {% for customer in user %}
-                    {% if call.customer_id == customer.value %}
-                    <option value="{{customer.value}}" selected>
-                        {{customer.display}}
+        <div class="modal-body grid">
+            <div class="form-floating g-col-12 g-col-sm-12 g-col-md-6 g-col-lg-6 g-col-xl-6 g-col-xxl-6">
+                <select class="form-select" id="caller_id" name="caller_id" aria-label="Caller">
+                    {% for user in users %}
+                    {% if call.caller_id == user.value %}
+                    <option value="{{user.value}}" selected>
+                        {{user.display}}
                     </option>
                     {% else %}
-                    <option value="{{customer.value}}">
-                        {{customer.display}}
+                    <option value="{{user.value}}">
+                        {{user.display}}
                     </option>
                     {% endif %}
                     {% endfor %}
                 </select>
-                <label for="customer_id">
+                <label for="caller_id">
                     Caller
                 </label>
             </div>
 
-            <div class="form-floating mb-3">
-                <select class="form-select" id="customer_id" name="customer_id" aria-label="Call Recipient">
+            <div class="form-floating g-col-12 g-col-sm-12 g-col-md-6 g-col-lg-3 g-col-xl-3 g-col-xxl-3">
+                <select class="form-select" id="call_type" name="call_type" aria-label="Call Type">
+                    {% for callType in callTypes %}
+                    {% if call.call_type == callType.value %}
+                    <option value="{{callType.value}}" selected>
+                        {{callType.display}}
+                    </option>
+                    {% else %}
+                    <option value="{{callType.value}}">
+                        {{callType.display}}
+                    </option>
+                    {% endif %}
+                    {% endfor %}
+                </select>
+                <label for="call_type">
+                    Call Type
+                </label>
+            </div>
+
+            <div class="form-floating g-col-12 g-col-sm-12 g-col-md-6 g-col-lg-3 g-col-xl-3 g-col-xxl-3">
+                <input class="form-control" placeholder="Leave a remark here" id="calling_time" name="calling_time" type="datetime-local" value="{{call.calling_time}}">
+                <label for="calling_time">
+                    Calling Time
+                </label>
+            </div>
+
+            <div class="form-floating g-col-12 g-col-sm-12 g-col-md-6 g-col-lg-3 g-col-xl-3 g-col-xxl-3">
+                <input type="number" class="form-control" id="call_duration" name="call_duration" value="{{call.call_duration}}" placeholder="Enter number of seconds/minutes.">
+                <label for="call_duration">
+                    Call Duration
+                </label>
+            </div>
+
+            <div class="form-floating g-col-12 g-col-sm-12 g-col-md-6 g-col-lg-3 g-col-xl-3 g-col-xxl-3">
+                <select class="form-select" id="call_duration_type" name="call_duration_type">
+                    {% for callDurationTyp in callDurationType %}
+                    {% if call.call_duration_type == callDurationTyp.value %}
+                    <option value="{{callDurationTyp.value}}" selected>
+                        {{callDurationTyp.display}}
+                    </option>
+                    {% else %}
+                    <option value="{{callDurationTyp.value}}">
+                        {{callDurationTyp.display}}
+                    </option>
+                    {% endif %}
+                    {% endfor %}
+                </select>
+                <label for="call_duration_type">
+                    Call Duration Type
+                </label>
+            </div>
+
+            <div class="form-floating g-col-12 g-col-sm-12 g-col-md-6 g-col-lg-6 g-col-xl-6 g-col-xxl-6">
+                <select class="form-select" id="customer_id" name="customer_id">
                     {% for customer in customers %}
                     {% if call.customer_id == customer.value %}
                     <option value="{{customer.value}}" selected>
@@ -42,28 +94,42 @@
                     {% endfor %}
                 </select>
                 <label for="customer_id">
-                    Call Recipient
+                    Customer
                 </label>
             </div>
 
-            <div class="form-floating mb-3">
-                <input class="form-control" placeholder="Leave a remark here" id="calling_time" name="calling_time" type="datetime-local" value="{{call.calling_time}}">
-                <label for="calling_time">
-                    Calling Time
-                </label>
-            </div>
-
-            <div class="form-floating mb-3">
+            <div class="form-floating g-col-12 g-col-sm-12 g-col-md-6 g-col-lg-6 g-col-xl-6 g-col-xxl-6">
                 <textarea class="form-control" placeholder="Leave a remark here" id="purpose_of_the_call" name="purpose_of_the_call" style="height: 100px;">{{call.purpose_of_the_call}}</textarea>
                 <label for="remark">
-                    Remark
+                    Purpose Of The Call
                 </label>
             </div>
 
-            <div class="form-floating mb-3">
+            <div class="form-floating g-col-12 g-col-sm-12 g-col-md-6 g-col-lg-6 g-col-xl-6 g-col-xxl-6">
                 <textarea class="form-control" placeholder="Leave a remark here" id="outcome_of_the_call" name="outcome_of_the_call" style="height: 100px;">{{call.outcome_of_the_call}}</textarea>
                 <label for="remark">
-                    Remark
+                    Outcome Of The Call
+                </label>
+            </div>
+
+            <div class="form-floating g-col-12 g-col-sm-12 g-col-md-6 g-col-lg-6 g-col-xl-6 g-col-xxl-6">
+                <select class="form-select" id="call_recording_status" name="call_recording_status">
+                    <option value="true">
+                        Yes
+                    </option>
+                    <option value="false" selected>
+                        No
+                    </option>
+                </select>
+                <label for="call_recording_status">
+                    Call Recording Available?
+                </label>
+            </div>
+
+            <div class="input-group g-col-12">
+                <input type="file" class="form-control" id="call_recording_file">
+                <label class="input-group-text" for="call_recording_file">
+                    Upload
                 </label>
             </div>
         </div>
@@ -71,10 +137,22 @@
             <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">
                 Close
             </button>
-            <button type="submit" id="submit" name="submit" class="btn btn-sm btn-success">
-                Submit
+            <button type="submit" id="submit" name="submit" class="btn btn-sm btn-warning">
+                Save Change
             </button>
         </div>
         </form>
     </div>
 </div>
+
+<script>
+    // Create a new Date object with the desired date and time
+    const date = new Date('2023-01-01T12:30:00');
+
+    // Format the date to match the format expected by datetime-local input
+    const formattedDate = date.toISOString().slice(0, 16);
+
+    console.log("formattedDate: ", formattedDate);
+    // Set the formatted date and time to the input field
+    {% comment %} document.getElementById('calling_time').value = formattedDate; {% endcomment %}
+</script>

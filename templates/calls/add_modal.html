@@ -1,37 +1,103 @@
-<div class="modal-dialog">
+<div class="modal-dialog modal-lg">
     <div class="modal-content">
         <form method="POST" id="onAdd" name="onAdd">
+        {% csrf_token %}
         <div class="modal-header">
             <h1 class="modal-title fs-5" id="addModalLabel">
                 Add New Call
             </h1>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
-        <div class="modal-body">
-            <div class="form-floating mb-3">
-                <select class="form-select" id="customer_id" name="customer_id" aria-label="Customer">
-                    {% for customer in customers %}
+        <div class="modal-body grid">
+            <div class="form-floating g-col-12 g-col-sm-12 g-col-md-6 g-col-lg-6 g-col-xl-6 g-col-xxl-6">
+                <select class="form-select" id="caller_id" name="caller_id" aria-label="Caller">
+                    {% for user in users %}
+                    <option value="{{user.value}}">
+                        {{user.display}}
+                    </option>
+                    {% endfor %}
+                </select>
+                <label for="caller_id">
+                    Caller
+                </label>
+            </div>
+
+            <div class="form-floating g-col-12 g-col-sm-12 g-col-md-6 g-col-lg-3 g-col-xl-3 g-col-xxl-3">
+                <select class="form-select" id="call_type" name="call_type" aria-label="Call Type">
+                    {% for callType in callTypes %}
+                    <option value="{{callType.value}}">
+                        {{callType.display}}
+                    </option>
+                    {% endfor %}
+                </select>
+                <label for="call_type">
+                    Call Type
+                </label>
+            </div>
+
+            <div class="form-floating g-col-12 g-col-sm-12 g-col-md-6 g-col-lg-3 g-col-xl-3 g-col-xxl-3">
+                <input class="form-control" placeholder="Leave a remark here" id="calling_time" name="calling_time" type="datetime-local" value="{{call.calling_time}}">
+                <label for="calling_time">
+                    Calling Time
+                </label>
+            </div>
+
+            <div class="form-floating g-col-12 g-col-sm-12 g-col-md-6 g-col-lg-3 g-col-xl-3 g-col-xxl-3">
+                <input type="number" class="form-control" id="call_duration" name="call_duration" placeholder="Enter number of seconds/minutes.">
+                <label for="call_duration">
+                    Call Duration
+                </label>
+            </div>
+
+            <div class="form-floating g-col-12 g-col-sm-12 g-col-md-6 g-col-lg-3 g-col-xl-3 g-col-xxl-3">
+                <select class="form-select" id="call_duration_type" name="call_duration_type">
+                    {% for callDurationTyp in callDurationType %}
+                    <option value="{{callDurationTyp.value}}">
+                        {{callDurationTyp.display}}
+                    </option>
+                    {% endfor %}
+                </select>
+                <label for="call_duration_type">
+                    Call Duration Type
+                </label>
+            </div>
+
+            <div class="form-floating g-col-12 g-col-sm-12 g-col-md-6 g-col-lg-6 g-col-xl-6 g-col-xxl-6">
+                <select class="form-select" id="customer_id" name="customer_id">
                     <option value="{{customer.value}}">
                         {{customer.display}}
                     </option>
-                    {% endfor %}
                 </select>
                 <label for="customer_id">
                     Customer
                 </label>
             </div>
 
-            <div class="form-floating mb-3">
-                <input class="form-control" placeholder="Leave a remark here" id="calling_time" name="calling_time" type="datetime-local">
-                <label for="calling_time">
-                    Calling Time
+            <div class="form-floating g-col-12 g-col-sm-12 g-col-md-6 g-col-lg-6 g-col-xl-6 g-col-xxl-6">
+                <textarea class="form-control" placeholder="Leave a remark here" id="purpose_of_the_call" name="purpose_of_the_call" style="height: 100px;">{{call.purpose_of_the_call}}</textarea>
+                <label for="remark">
+                    Purpose Of The Call
                 </label>
             </div>
 
-            <div class="form-floating mb-3">
-                <textarea class="form-control" placeholder="Leave a remark here" id="remark" name="remark" style="height: 100px;"></textarea>
+            <div class="form-floating g-col-12 g-col-sm-12 g-col-md-6 g-col-lg-6 g-col-xl-6 g-col-xxl-6">
+                <textarea class="form-control" placeholder="Leave a remark here" id="outcome_of_the_call" name="outcome_of_the_call" style="height: 100px;">{{call.outcome_of_the_call}}</textarea>
                 <label for="remark">
-                    Remark
+                    Outcome Of The Call
+                </label>
+            </div>
+
+            <div class="form-floating g-col-12 g-col-sm-12 g-col-md-6 g-col-lg-6 g-col-xl-6 g-col-xxl-6">
+                <select class="form-select" id="call_recording_status" name="call_recording_status">
+                    <option value="true">
+                        Yes
+                    </option>
+                    <option value="false" selected>
+                        No
+                    </option>
+                </select>
+                <label for="call_recording_status">
+                    Call Recording Available?
                 </label>
             </div>
         </div>
@@ -40,7 +106,7 @@
                 Close
             </button>
             <button type="submit" id="submit" name="submit" class="btn btn-sm btn-success">
-                Submit
+                Save
             </button>
         </div>
         </form>

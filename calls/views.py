@@ -47,29 +47,6 @@ def index(request):
 
 def add_modal(request):
     return render(request, 'calls/add_modal.html', {
-        "customers": [
-            {
-                "display": "First Customer",
-                "value": "1",
-                "disabled": "false"
-            }, {
-                "display": "Secods Customer",
-                "value": "2",
-                "disabled": "false"
-            }, {
-                "display": "Third Customer",
-                "value": "3",
-                "disabled": "false"
-            }, {
-                "display": "Forth Customer",
-                "value": "4",
-                "disabled": "true"
-            }
-        ]
-    })
-
-def edit_modal(request):
-    return render(request, 'calls/edit_modal.html', {
         "callTypes": [
             {
                 "display": "Incoming",
@@ -117,18 +94,70 @@ def edit_modal(request):
                 "value": "4",
                 "disabled": "true"
             }
+        ]
+    })
+
+def edit_modal(request):
+    return render(request, 'calls/edit_modal.html', {
+        "callTypes": [
+            {
+                "display": "Incoming",
+                "value": "ICONMING"
+            }, {
+                "display": "Outgoing",
+                "value": "OUTGOING"
+            }, {
+                "display": "Missed",
+                "value": "MISSED"
+            }
+        ], "callDurationType": [
+            {
+                "display": "Seconds",
+                "value": "SECONDS"
+            }, {
+                "display": "Minutes",
+                "value": "MINUTES"
+            }
+        ], "users": [
+            {
+                "display": "Javed Pathan",
+                "value": "1",
+                "disabled": "false"
+            }, {
+                "display": "Adil Pathan",
+                "value": "2",
+                "disabled": "false"
+            }
+        ], "customers": [
+            {
+                "display": "First Customer",
+                "value": "1",
+                "disabled": "false"
+            }, {
+                "display": "Secods Customer",
+                "value": "2",
+                "disabled": "false"
+            }, {
+                "display": "Third Customer",
+                "value": "3",
+                "disabled": "false"
+            }, {
+                "display": "Forth Customer",
+                "value": "4",
+                "disabled": "true"
+            }
         ], "call": {
             "call_id": "1",
             "caller_id": "1",
-            "call_type": "ICONMING|OUTGOING|MISSED",
-            "calling_time": "2023-12-03T21:55:00:000",
+            "call_type": "ICONMING",
+            "calling_time": "2024-01-01T07:00",
             "call_duration": "1.30",
-            "call_duration_type": "MINUES|SECONDS",
+            "call_duration_type": "MINUES",
             "customer_id": "3",
-            "purpose_of_the_call": "",
-            "outcome_of_the_call": "",
-            "call_recording_status": "true/false",
-            "tags": ""
+            "nodal_contact_id": "1",
+            "purpose_of_the_call": "Custom Remark",
+            "outcome_of_the_call": "Custom Remark",
+            "is_call_recording_available": "true/false"
         }
     })
 

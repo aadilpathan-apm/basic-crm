@@ -5,9 +5,9 @@ Calls
 {% endblock title %}
 
 {% block action %}
-<button id="onAdd" name="onAdd" class="btn btn-outline-success btn-sm" type="submit">
-    Add New Call
-</button>
+<a id="onAdd" name="onAdd" href="javascript:void(0)" class="btnAdd float-end" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="ic-add-tooltip" data-bs-title="Add New Call">
+    <span class="material-icons isz-36 ic-add">add</span>
+</a>
 {% endblock action %}
 
 {% block body %}
@@ -28,11 +28,11 @@ Calls
             {{ call.customerName }}
             
             <a data-call_id="{{call.callId}}" href="javascript:void(0)" class="btnEdit float-end" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="ic-edit-tooltip" data-bs-title="Edit Call">
-                <span class="material-icons isz-18 ic-edit">edit</span>
+                <span class="material-icons isz-24 ic-edit">edit</span>
             </a>
 
             <a data-call_id="{{call.callId}}" href="javascript:void(0)" class="btnDelete float-end" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="ic-delete-tooltip" data-bs-title="Delete Call">
-                <span class="material-icons isz-18 ic-delete">delete</span>
+                <span class="material-icons isz-24 ic-delete">delete</span>
             </a>
 
             <span class="badge rounded-pill text-bg-secondary float-end">
