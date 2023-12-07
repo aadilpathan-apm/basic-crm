@@ -38,7 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'customers.apps.CustomersConfig',
-    # 'nodal_contacts.apps.NodalContactsConfig',
+    'nodal_contacts.apps.NodalContactsConfig',
     # 'calls.apps.CallsConfig',
 ]
 
