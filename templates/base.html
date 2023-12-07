@@ -89,10 +89,10 @@
                             <a class="nav-link active" aria-current="page" href="/home">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" aria-current="page" href="/task">My Tasks</a>
+                            <a class="nav-link" aria-current="page" href="/lead">Leads</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" aria-current="page" href="/customers">Customers</a>
+                            <a class="nav-link" aria-current="page" href="/customer">Customers</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" aria-current="page" href="/notes">Notes</a>
@@ -102,18 +102,14 @@
                                 Tracking 
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="/calls">Calls</a></li>
-                                <li><a class="dropdown-item" href="/mettings">Mettings</a></li>
-                                <li><a class="dropdown-item" href="/appointments">Appointments</a></li>
+                                <li><a class="dropdown-item" href="/metting">Metting</a></li>
+                                <li><a class="dropdown-item" href="/appointment">Appointment</a></li>
+                                <li><a class="dropdown-item" href="/call_log">Call Logs</a></li>
                                 <li><hr class="dropdown-divider"></li>
-                                <li><a class="dropdown-item" href="javascript:void(0)">Add New Task</a></li>
+                                <li><a class="dropdown-item" href="javascript:void(0)">My Profile</a></li>
                             </ul>
                         </li>
                     </ul>
-
-                    {% comment %} <div class="d-flex spinner-border spinner-border-sm text-light" role="status">
-                        <span class="visually-hidden">Loading...</span>
-                    </div> {% endcomment %}
 
                     {% block action %}{% endblock action %}
                 </div>

@@ -22,13 +22,13 @@ admin.site.site_title = "Basic CRM Admin Portal"
 admin.site.index_title = "Welcome to Basic CRM Admin Portal"
 
 urlpatterns = [
+    path('admin/', admin.site.urls),
     path('', include('home.urls')),
     path('home', include('home.urls')),
-    path('task', include('task.urls')),
-    path('customers', include('customers.urls')),
-    path('notes', include('notes.urls')),
-    path('calls/', include('calls.urls')),
-    path('mettings', include('mettings.urls')),
-    path('appointments', include('appointments.urls')),
-    path('admin/', admin.site.urls),
+    path('lead', include('lead.urls')),
+    path('call_log/', include('call_log.urls')),
+    # path('customer', include('customer.urls')),
+    # path('task', include('task.urls')),
+    # path('notes', include('notes.urls')),
+    # path('metting', include('metting.urls'))
 ]

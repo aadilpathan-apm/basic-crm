@@ -37,9 +37,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'customers.apps.CustomersConfig',
-    'nodal_contacts.apps.NodalContactsConfig',
-    # 'calls.apps.CallsConfig',
+    'lead',
+    'address',
+    'contact_person',
+    'lead_type',
+    'source_type',
+    'call_log',
 ]
 
 MIDDLEWARE = [
