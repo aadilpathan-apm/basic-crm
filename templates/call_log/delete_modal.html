@@ -2,21 +2,21 @@
     <div class="modal-content">
         <form method="DELETE" id="onDelete" name="onDelete">
         <div class="modal-header">
-            <h1 class="modal-title fs-5" id="deleteModalLabel">
+            <h1 id="deleteModalLabel" class="modal-title fs-5">
                 Delete Call
             </h1>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <button type="button" data-bs-dismiss="modal" aria-label="Close" class="btn-close"></button>
         </div>
         <div class="modal-body grid">
             <div class="form-floating g-col-12">
-                <textarea class="form-control" placeholder="Leave a remark here" id="remark" name="remark" style="height: 100px;"></textarea>
+                <textarea id="why_deleted" name="why_deleted" class="form-control" style="height: 100px;"></textarea>
                 <label for="remark">
-                    Remark
+                    Justification
                 </label>
             </div>
         </div>
         <div class="modal-footer">
-            <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">
+            <button type="button" data-bs-dismiss="modal" class="btn btn-sm btn-secondary">
                 Close
             </button>
             <button type="submit" id="submit" name="submit" class="btn btn-sm btn-danger">

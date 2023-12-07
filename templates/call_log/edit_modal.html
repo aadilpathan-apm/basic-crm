@@ -2,14 +2,14 @@
     <div class="modal-content">
         <form method="PUT" id="onEdit" name="onEdit">
         <div class="modal-header">
-            <h1 class="modal-title fs-5" id="addModalLabel">
+            <h1 id="addModalLabel" class="modal-title fs-5">
                 Edit Call Details
             </h1>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body grid">
             <div class="form-floating g-col-12 g-col-sm-12 g-col-md-6 g-col-lg-6 g-col-xl-6 g-col-xxl-6">
-                <select class="form-select" id="caller_id" name="caller_id" aria-label="Caller">
+                <select id="caller_id" name="caller_id" aria-label="Caller" class="form-select">
                     {% for user in users %}
                     {% if call.caller_id == user.value %}
                     <option value="{{user.value}}" selected>
@@ -28,7 +28,7 @@
             </div>
 
             <div class="form-floating g-col-12 g-col-sm-12 g-col-md-6 g-col-lg-3 g-col-xl-3 g-col-xxl-3">
-                <select class="form-select" id="call_type" name="call_type" aria-label="Call Type">
+                <select id="call_type" name="call_type" aria-label="Call Type" class="form-select">
                     {% for callType in callTypes %}
                     {% if call.call_type == callType.value %}
                     <option value="{{callType.value}}" selected>
@@ -47,21 +47,21 @@
             </div>
 
             <div class="form-floating g-col-12 g-col-sm-12 g-col-md-6 g-col-lg-3 g-col-xl-3 g-col-xxl-3">
-                <input class="form-control" placeholder="Leave a remark here" id="calling_time" name="calling_time" type="datetime-local" value="{{call.calling_time}}">
+                <input type="datetime-local" id="calling_time" name="calling_time" value="{{call.calling_time}}" class="form-control">
                 <label for="calling_time">
                     Calling Time
                 </label>
             </div>
 
             <div class="form-floating g-col-12 g-col-sm-12 g-col-md-6 g-col-lg-3 g-col-xl-3 g-col-xxl-3">
-                <input type="number" class="form-control" id="call_duration" name="call_duration" value="{{call.call_duration}}" placeholder="Enter number of seconds/minutes.">
+                <input type="time" id="call_duration" name="call_duration" value="{{call.call_duration}}" class="form-control">
                 <label for="call_duration">
                     Call Duration
                 </label>
             </div>
 
             <div class="form-floating g-col-12 g-col-sm-12 g-col-md-6 g-col-lg-3 g-col-xl-3 g-col-xxl-3">
-                <select class="form-select" id="call_duration_type" name="call_duration_type">
+                <select id="call_duration_type" name="call_duration_type" class="form-select">
                     {% for callDurationTyp in callDurationType %}
                     {% if call.call_duration_type == callDurationTyp.value %}
                     <option value="{{callDurationTyp.value}}" selected>
@@ -80,7 +80,7 @@
             </div>
 
             <div class="form-floating g-col-12 g-col-sm-12 g-col-md-6 g-col-lg-6 g-col-xl-6 g-col-xxl-6">
-                <select class="form-select" id="customer_id" name="customer_id">
+                <select id="customer_id" name="customer_id" class="form-select">
                     {% for customer in customers %}
                     {% if call.customer_id == customer.value %}
                     <option value="{{customer.value}}" selected>
@@ -99,21 +99,21 @@
             </div>
 
             <div class="form-floating g-col-12 g-col-sm-12 g-col-md-6 g-col-lg-6 g-col-xl-6 g-col-xxl-6">
-                <textarea class="form-control" placeholder="Leave a remark here" id="purpose_of_the_call" name="purpose_of_the_call" style="height: 100px;">{{call.purpose_of_the_call}}</textarea>
+                <textarea id="purpose_of_the_call" name="purpose_of_the_call" class="form-control" style="height: 100px;">{{call.purpose_of_the_call}}</textarea>
                 <label for="remark">
                     Purpose Of The Call
                 </label>
             </div>
 
             <div class="form-floating g-col-12 g-col-sm-12 g-col-md-6 g-col-lg-6 g-col-xl-6 g-col-xxl-6">
-                <textarea class="form-control" placeholder="Leave a remark here" id="outcome_of_the_call" name="outcome_of_the_call" style="height: 100px;">{{call.outcome_of_the_call}}</textarea>
+                <textarea id="outcome_of_the_call" name="outcome_of_the_call" class="form-control" style="height: 100px;">{{call.outcome_of_the_call}}</textarea>
                 <label for="remark">
                     Outcome Of The Call
                 </label>
             </div>
 
             <div class="form-floating g-col-12 g-col-sm-12 g-col-md-6 g-col-lg-6 g-col-xl-6 g-col-xxl-6">
-                <select class="form-select" id="call_recording_status" name="call_recording_status">
+                <select id="call_recording_status" name="call_recording_status" class="form-select">
                     <option value="true">
                         Yes
                     </option>
@@ -127,14 +127,14 @@
             </div>
 
             <div class="input-group g-col-12">
-                <input type="file" class="form-control" id="call_recording_file">
+                <input type="file" id="call_recording_file" class="form-control">
                 <label class="input-group-text" for="call_recording_file">
                     Upload
                 </label>
             </div>
         </div>
         <div class="modal-footer">
-            <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">
+            <button type="button" data-bs-dismiss="modal" class="btn btn-sm btn-secondary">
                 Close
             </button>
             <button type="submit" id="submit" name="submit" class="btn btn-sm btn-warning">
@@ -144,15 +144,3 @@
         </form>
     </div>
 </div>
-
-<script>
-    // Create a new Date object with the desired date and time
-    const date = new Date('2023-01-01T12:30:00');
-
-    // Format the date to match the format expected by datetime-local input
-    const formattedDate = date.toISOString().slice(0, 16);
-
-    console.log("formattedDate: ", formattedDate);
-    // Set the formatted date and time to the input field
-    {% comment %} document.getElementById('calling_time').value = formattedDate; {% endcomment %}
-</script>

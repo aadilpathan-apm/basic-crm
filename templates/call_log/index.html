@@ -27,11 +27,11 @@ Call Log
         <div class="card-header">
             {{ call.customerName }}
             
-            <a data-call_id="{{call.callId}}" href="javascript:void(0)" class="btnEdit float-end" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="ic-edit-tooltip" data-bs-title="Edit Call">
+            <a data-call_id="{{call.callId}}" href="javascript:void(0)" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="ic-edit-tooltip" data-bs-title="Edit Call" class="btnEdit float-end">
                 <span class="material-icons isz-24 ic-edit">edit</span>
             </a>
 
-            <a data-call_id="{{call.callId}}" href="javascript:void(0)" class="btnDelete float-end" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="ic-delete-tooltip" data-bs-title="Delete Call">
+            <a data-call_id="{{call.callId}}" href="javascript:void(0)" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="ic-delete-tooltip" data-bs-title="Delete Call" class="btnDelete float-end">
                 <span class="material-icons isz-24 ic-delete">delete</span>
             </a>
 
@@ -56,20 +56,18 @@ Call Log
     {% endfor %}
 </div>
 
-<div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true"></div>
+<div id="addModal" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true" class="modal fade"></div>
 
-<div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true"></div>
+<div id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true" class="modal fade"></div>
 
-<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true"></div>
+<div id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true" class="modal fade"></div>
 
 <script type="text/javascript">
     var jq = $.noConflict();
 
     jq(document).ready(function() {
         jq("#onAdd").click(function(e) {
-            console.log("You click on onAdd:");
-
-            $.ajax({
+            jq.ajax({
                 type: "GET",
                 datatype: "html",
                 url: "/call_log/add_modal/",
@@ -86,7 +84,7 @@ Call Log
             var button = jq(e.target);
             var callId = button.data('call_id');
 
-            $.ajax({
+            jq.ajax({
                 type: "GET",
                 dataType: "html",
                 url: "/call_log/edit_modal/",
@@ -104,7 +102,7 @@ Call Log
             var button = jq(e.target);
             var callId = button.data('call_id');
 
-            $.ajax({
+            jq.ajax({
                 type: "GET",
                 dataType: "html",
                 url: "/call_log/delete_modal/",
