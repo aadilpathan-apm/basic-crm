@@ -122,6 +122,8 @@
     <script type="text/javascript">
         const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
         const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
+
+        {% block script_content %}{% endblock script_content %}    
     </script>
 
     {% block script %}{% endblock script %}

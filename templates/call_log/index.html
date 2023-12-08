@@ -61,60 +61,60 @@ Call Log
 <div id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true" class="modal fade"></div>
 
 <div id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true" class="modal fade"></div>
+{% endblock body %}
 
-<script type="text/javascript">
-    var jq = $.noConflict();
+{% block script_content %}
+var jq = $.noConflict();
 
-    jq(document).ready(function() {
-        jq("#onAdd").click(function(e) {
-            jq.ajax({
-                type: "GET",
-                datatype: "html",
-                url: "/call_log/add_modal/",
-                success: function (response) {
-                    jq("#addModal").html(response);
-                    jq('#addModal').modal('show');
-                }, error: function () {
-                    jq("#customer_id").empty();
-                }
-            });
-        });
-
-        jq(".btnEdit").click(function(e) {
-            var button = jq(e.target);
-            var callId = button.data('call_id');
-
-            jq.ajax({
-                type: "GET",
-                dataType: "html",
-                url: "/call_log/edit_modal/",
-                success: function(response) {
-                    jq("#editModal").html(response);
-                    jq('#editModal').modal('show');
-                },
-                error: function() {
-                    jq("#customer_id").empty();
-                }
-            });
-        });
-
-        jq(".btnDelete").click(function(e) {
-            var button = jq(e.target);
-            var callId = button.data('call_id');
-
-            jq.ajax({
-                type: "GET",
-                dataType: "html",
-                url: "/call_log/delete_modal/",
-                success: function(response) {
-                    jq("#deleteModal").html(response);
-                    jq('#deleteModal').modal('show');
-                },
-                error: function() {
-                    jq("#customer_id").empty();
-                }
-            });
+jq(document).ready(function() {
+    jq("#onAdd").click(function(e) {
+        jq.ajax({
+            type: "GET",
+            datatype: "html",
+            url: "/call_log/add_modal/",
+            success: function (response) {
+                jq("#addModal").html(response);
+                jq('#addModal').modal('show');
+            }, error: function () {
+                jq("#customer_id").empty();
+            }
         });
     });
-</script>
-{% endblock body %}
+
+    jq(".btnEdit").click(function(e) {
+        var button = jq(e.target);
+        var callId = button.data('call_id');
+
+        jq.ajax({
+            type: "GET",
+            dataType: "html",
+            url: "/call_log/edit_modal/",
+            success: function(response) {
+                jq("#editModal").html(response);
+                jq('#editModal').modal('show');
+            },
+            error: function() {
+                jq("#customer_id").empty();
+            }
+        });
+    });
+
+    jq(".btnDelete").click(function(e) {
+        var button = jq(e.target);
+        var callId = button.data('call_id');
+
+        jq.ajax({
+            type: "GET",
+            dataType: "html",
+            url: "/call_log/delete_modal/",
+            success: function(response) {
+                jq("#deleteModal").html(response);
+                jq('#deleteModal').modal('show');
+            },
+            error: function() {
+                jq("#customer_id").empty();
+            }
+        });
+    });
+});
+{% endblock script_content %}
