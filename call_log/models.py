@@ -30,3 +30,6 @@ class CallLog(models.Model):
     deleted_date = models.DateTimeField(null=True)
     deleter = models.ForeignKey(User, null=True, related_name='call_log_deleter', on_delete=models.CASCADE)
     why_deleted = models.TextField(null=True, max_length=500)
+
+    def __str__(self):        
+        return f"{self.call_type} call with {self.contact_person.person_name} from {self.lead} by {self.caller}"

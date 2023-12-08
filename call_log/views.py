@@ -96,6 +96,9 @@ def add_modal(request):
         ]
     })
 
+def add(request):
+    return render(request, "")
+
 def edit_modal(request):
     return render(request, 'call_log/edit_modal.html', {
         "callTypes": [
@@ -160,5 +163,11 @@ def edit_modal(request):
         }
     })
 
+def edit(request):
+    return render(request, "")
+
 def delete_modal(request):
     return render(request, 'call_log/delete_modal.html', {})
+
+def delete(request):
+    return render(request, "")
