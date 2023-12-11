@@ -15,3 +15,6 @@ class SourceType(models.Model):
     deleted_date = models.DateTimeField(null=True)
     deleter = models.ForeignKey(User, null=True, related_name='source_type_deleter', on_delete=models.CASCADE)
     why_deleted = models.TextField(null=True, max_length=500)
+
+    def __str__(self):
+        return self.source_title

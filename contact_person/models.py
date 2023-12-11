@@ -21,4 +21,4 @@ class ContactPerson(models.Model):
     why_deleted = models.TextField(null=True, max_length=500)
 
     def __str__(self):
-        return self
+        return self.person_name

@@ -22,32 +22,41 @@ Call Log
 </div>
 
 <div class="grid" style="padding: 15px;">
-    {% for call in calls %}
+    {% for callLog in callLogs %}
     <div class="card g-col-12 g-col-sm-12 g-col-md-6 g-col-lg-4 g-col-xl-4 g-col-xxl-4 p-0">
         <div class="card-header">
-            {{ call.customerName }}
+            {{ callLog.person_name }} <small class="fw-light">from {{ callLog.company_name }}</small>
             
-            <a data-call_id="{{call.callId}}" href="javascript:void(0)" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="ic-edit-tooltip" data-bs-title="Edit Call" class="btnEdit float-end">
+            <a data-call_id="{{callLog.call_log_id}}" href="javascript:void(0)" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="ic-edit-tooltip" data-bs-title="Edit this Call Log" class="btnEdit float-end">
                 <span class="material-icons isz-24 ic-edit">edit</span>
             </a>
 
-            <a data-call_id="{{call.callId}}" href="javascript:void(0)" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="ic-delete-tooltip" data-bs-title="Delete Call" class="btnDelete float-end">
+            <a data-call_id="{{callLog.call_log_id}}" href="javascript:void(0)" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="ic-delete-tooltip" data-bs-title="Delete this Call Log" class="btnDelete float-end">
                 <span class="material-icons isz-24 ic-delete">delete</span>
             </a>
-
-            <span class="badge rounded-pill text-bg-secondary float-end">
-                {{ call.status }}
-            </span>
         </div>
         <div class="card-body">
             <blockquote class="blockquote mb-0">
-                <p style="max-height: 3em; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: smaller; overflow-wrap: break-word;">
-                    {{ call.remark }}
-                </p>
-                <footer class="blockquote-footer" style="font-size: small;">
-                    Calling time:
+                <div style="font-size: small; color: gray;">
+                    <span class="material-icons isz-18">
+                        {% if callLog.call_type == "I" %}
+                        phone_callback
+                        {% elif callLog.call_type == "O" %}
+                        phone_forwarded
+                        {% else %}
+                        phone_missed
+                        {% endif %}
+                    </span>
+
+                    <span style="font-size: 12px;">
+                        {{ callLog.calling_time }}
+                    </span>
+                </span>
+                <p style="max-height: 3em; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: smaller; overflow-wrap: break-word;"></p>
+                <footer class="blockquote-footer mb-0" style="font-size: small;">
+                    Created by {{ callLog.creator_name }} at 
                     <cite title="Source Title">
-                        {{ call.callingTime }}
+                        {{ callLog.created_date }}
                     </cite>
                 </footer>
             </blockquote> 
@@ -56,65 +65,146 @@ Call Log
     {% endfor %}
 </div>
 
-<div id="addModal" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true" class="modal fade"></div>
+<div id="addModal" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true" class="modal fade">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form id="onAddFrom" name="onAddFrom">
+            <div class="modal-header">
+                <h1 id="addModalLabel" class="modal-title fs-5">
+                    Add New Call Log
+                </h1>
+                <button type="button" data-bs-dismiss="modal" aria-label="Close" class="btn-close"></button>
+            </div>
+            <div id="addModalBody" class="modal-body grid">
+    
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">
+                    Close
+                </button>
+                <button type="submit" id="submit" name="submit" class="btn btn-sm btn-success">
+                    Save
+                </button>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
 
-<div id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true" class="modal fade"></div>
+<div id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true" class="modal fade">
+    <div class="modal-dialog modal-lg">
+        <div id="editModalContent" class="modal-content"></div>
+    </div>
+</div>
 
-<div id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true" class="modal fade"></div>
+<div id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true" class="modal fade">
+    <div class="modal-content">
+        <form id="onDeleteFrom" name="onDeleteFrom">
+        <div class="modal-header">
+            <h1 id="deleteModalLabel" class="modal-title fs-5">
+                Edit Call Log
+            </h1>
+            <button type="button" data-bs-dismiss="modal" aria-label="Close" class="btn-close"></button>
+        </div>
+        <div id="deleteModalBody" class="modal-body grid">
+
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">
+                Close
+            </button>
+            <button type="submit" id="submit" name="submit" class="btn btn-sm btn-success">
+                Save
+            </button>
+        </div>
+        </form>
+    </div>
+</div>
 {% endblock body %}
 
-{% block script_content %}
-var jq = $.noConflict();
+{% block script %}
+<script type="text/javascript">
+    const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+    var jq = $.noConflict();
 
-jq(document).ready(function() {
-    jq("#onAdd").click(function(e) {
-        jq.ajax({
-            type: "GET",
-            datatype: "html",
-            url: "/call_log/add_modal/",
-            success: function (response) {
-                jq("#addModal").html(response);
-                jq('#addModal').modal('show');
-            }, error: function () {
-                jq("#customer_id").empty();
-            }
+    jq(document).ready(function() {
+        jq("#onAdd").click(function(e) {
+            jq.ajax({
+                type: "GET",
+                datatype: "html",
+                url: "/call_log/add_modal/",
+                success: function (response) {
+                    jq("#addModalBody").html(response);
+                    jq('#addModal').modal('show');
+                }, error: function () {
+                    jq("#customer_id").empty();
+                }
+            });
+        });
+
+        jq(".btnEdit").click(function(e) {
+            // Get the call_id attribute value
+            var callId = jq(this).data('call_id');
+
+            jq.ajax({
+                type: "GET",
+                dataType: "html",
+                url: "/call_log/edit_modal/"+callId+"/",
+                success: function(response) {
+                    jq("#editModalContent").html(response);
+                    jq('#editModal').modal('show');
+                },
+                error: function() {
+                    jq("#customer_id").empty();
+                }
+            });
+        });
+
+        jq(".btnDelete").click(function(e) {
+            var button = jq(e.target);
+            var callId = button.data('call_id');
+
+            jq.ajax({
+                type: "GET",
+                dataType: "html",
+                url: "/call_log/delete_modal/",
+                success: function(response) {
+                    jq("#deleteModalBody").html(response);
+                    jq('#deleteModal').modal('show');
+                },
+                error: function() {
+                    jq("#customer_id").empty();
+                }
+            });
+        });
+
+        jq('#onAddFrom').submit(function (e) {
+            e.preventDefault(); // Prevent default form submission
+
+            // Collect form data and create a JSON object
+            var formData = {};
+            jq('#onAddFrom').serializeArray().forEach(function(item) {
+                formData[item.name] = item.value;
+            });
+
+            // Make the AJAX POST request
+            jq.ajax({
+                type: 'POST',
+                url: '/call_log/add/',
+                contentType: 'application/json',
+                data: JSON.stringify(formData),
+                headers: {
+                    "X-CSRFToken": csrftoken
+                },
+                contentType: 'application/json',
+                success: function (response) {
+                    console.log('Success:', response);
+                },
+                error: function (error) {
+                    console.log('Error:', error);
+                }
+            });
         });
     });
-
-    jq(".btnEdit").click(function(e) {
-        var button = jq(e.target);
-        var callId = button.data('call_id');
-
-        jq.ajax({
-            type: "GET",
-            dataType: "html",
-            url: "/call_log/edit_modal/",
-            success: function(response) {
-                jq("#editModal").html(response);
-                jq('#editModal').modal('show');
-            },
-            error: function() {
-                jq("#customer_id").empty();
-            }
-        });
-    });
-
-    jq(".btnDelete").click(function(e) {
-        var button = jq(e.target);
-        var callId = button.data('call_id');
-
-        jq.ajax({
-            type: "GET",
-            dataType: "html",
-            url: "/call_log/delete_modal/",
-            success: function(response) {
-                jq("#deleteModal").html(response);
-                jq('#deleteModal').modal('show');
-            },
-            error: function() {
-                jq("#customer_id").empty();
-            }
-        });
-    });
-});
-{% endblock script_content %}
+</script>
+{% endblock script %}
