@@ -24,7 +24,7 @@ def index(request):
                 'call_type': callLog.call_type,
                 'creator_name': f"{callLog.creator.first_name} {callLog.creator.last_name}",
                 'created_date': callLog.created_date
-                } for callLog in CallLog.objects.all()]
+                } for callLog in CallLog.objects.filter(is_deleted=False).all()]
     })
 
 def add_modal(request):
@@ -153,8 +153,32 @@ def edit(request, uuid):
     else:
         return JsonResponse({'error': 'Invalid request method'}, status=405)
 
-def delete_modal(request):
-    return render(request, 'call_log/delete_modal.html', {})
+def delete_modal(request, uuid):
+    return render(request, 'call_log/delete_modal.html', {
+        "call_log_id": uuid
+    })
 
-def delete(request):
-    return render(request, "")
+def delete(request, uuid):
+    if request.method == 'DELETE':
+        try:
+            # Retrieve JSON data from the request body
+            requestBody = json.loads(request.body.decode('utf-8'))
+
+            # Your logic with the JSON data here
+            callLog = CallLog.objects.filter(call_log_id=uuid).first()
+            callLog.is_deleted=True
+            callLog.changed_date=datetime.now()
+            callLog.changer=request.user
+            callLog.why_deleted=requestBody.get('why_deleted')
+            callLog.save()
+
+            # Example: Return a JSON response
+            response = JsonResponse({'messageType': 'success', 'message': f'Call log successfully updated.'}, status=201)
+            response['Content-Type'] = 'application/json'
+
+            return response
+        except json.JSONDecodeError:
+            # Handle JSON decoding error
+            return JsonResponse({'error': 'Invalid JSON data'}, status=400)
+    else:
+        return JsonResponse({'error': 'Invalid request method'}, status=405)

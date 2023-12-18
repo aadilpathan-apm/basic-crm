@@ -67,27 +67,7 @@ Call Log
 
 <div id="addModal" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true" class="modal fade">
     <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <form id="onAddFrom" name="onAddFrom">
-            <div class="modal-header">
-                <h1 id="addModalLabel" class="modal-title fs-5">
-                    Add New Call Log
-                </h1>
-                <button type="button" data-bs-dismiss="modal" aria-label="Close" class="btn-close"></button>
-            </div>
-            <div id="addModalBody" class="modal-body grid">
-    
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">
-                    Close
-                </button>
-                <button type="submit" id="submit" name="submit" class="btn btn-sm btn-success">
-                    Save
-                </button>
-            </div>
-            </form>
-        </div>
+        <div id="addModalContent" class="modal-content"></div>
     </div>
 </div>
 
@@ -98,26 +78,8 @@ Call Log
 </div>
 
 <div id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true" class="modal fade">
-    <div class="modal-content">
-        <form id="onDeleteFrom" name="onDeleteFrom">
-        <div class="modal-header">
-            <h1 id="deleteModalLabel" class="modal-title fs-5">
-                Edit Call Log
-            </h1>
-            <button type="button" data-bs-dismiss="modal" aria-label="Close" class="btn-close"></button>
-        </div>
-        <div id="deleteModalBody" class="modal-body grid">
-
-        </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">
-                Close
-            </button>
-            <button type="submit" id="submit" name="submit" class="btn btn-sm btn-success">
-                Save
-            </button>
-        </div>
-        </form>
+    <div class="modal-dialog">
+        <div id="deleteModalContent" class="modal-content"></div>
     </div>
 </div>
 {% endblock body %}
@@ -134,7 +96,7 @@ Call Log
                 datatype: "html",
                 url: "/call_log/add_modal/",
                 success: function (response) {
-                    jq("#addModalBody").html(response);
+                    jq("#addModalContent").html(response);
                     jq('#addModal').modal('show');
                 }, error: function () {
                     jq("#customer_id").empty();
@@ -143,13 +105,10 @@ Call Log
         });
 
         jq(".btnEdit").click(function(e) {
-            // Get the call_id attribute value
-            var callId = jq(this).data('call_id');
-
             jq.ajax({
                 type: "GET",
                 dataType: "html",
-                url: "/call_log/edit_modal/"+callId+"/",
+                url: "/call_log/edit_modal/"+jq(this).data('call_id')+"/",
                 success: function(response) {
                     jq("#editModalContent").html(response);
                     jq('#editModal').modal('show');
@@ -161,47 +120,16 @@ Call Log
         });
 
         jq(".btnDelete").click(function(e) {
-            var button = jq(e.target);
-            var callId = button.data('call_id');
-
             jq.ajax({
                 type: "GET",
                 dataType: "html",
-                url: "/call_log/delete_modal/",
+                url: "/call_log/delete_modal/"+jq(this).data('call_id')+"/",
                 success: function(response) {
-                    jq("#deleteModalBody").html(response);
+                    jq("#deleteModalContent").html(response);
                     jq('#deleteModal').modal('show');
                 },
                 error: function() {
                     jq("#customer_id").empty();
-                }
-            });
-        });
-
-        jq('#onAddFrom').submit(function (e) {
-            e.preventDefault(); // Prevent default form submission
-
-            // Collect form data and create a JSON object
-            var formData = {};
-            jq('#onAddFrom').serializeArray().forEach(function(item) {
-                formData[item.name] = item.value;
-            });
-
-            // Make the AJAX POST request
-            jq.ajax({
-                type: 'POST',
-                url: '/call_log/add/',
-                contentType: 'application/json',
-                data: JSON.stringify(formData),
-                headers: {
-                    "X-CSRFToken": csrftoken
-                },
-                contentType: 'application/json',
-                success: function (response) {
-                    console.log('Success:', response);
-                },
-                error: function (error) {
-                    console.log('Error:', error);
                 }
             });
         });

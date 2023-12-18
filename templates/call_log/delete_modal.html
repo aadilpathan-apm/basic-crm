@@ -1,28 +1,55 @@
-<div class="modal-dialog">
-    <div class="modal-content">
-        <form method="DELETE" id="onDelete" name="onDelete">
-        <div class="modal-header">
-            <h1 id="deleteModalLabel" class="modal-title fs-5">
-                Delete Call
-            </h1>
-            <button type="button" data-bs-dismiss="modal" aria-label="Close" class="btn-close"></button>
-        </div>
-        <div class="modal-body grid">
-            <div class="form-floating g-col-12">
-                <textarea id="why_deleted" name="why_deleted" class="form-control" style="height: 100px;"></textarea>
-                <label for="remark">
-                    Justification
-                </label>
-            </div>
-        </div>
-        <div class="modal-footer">
-            <button type="button" data-bs-dismiss="modal" class="btn btn-sm btn-secondary">
-                Close
-            </button>
-            <button type="submit" id="submit" name="submit" class="btn btn-sm btn-danger">
-                Delete
-            </button>
-        </div>
-        </form>
+<form id="onDeleteFrom" name="onDeleteFrom">
+    <div class="modal-header">
+        <h1 id="deleteModalLabel" class="modal-title fs-5">
+            Delete Call
+        </h1>
+        <button type="button" data-bs-dismiss="modal" aria-label="Close" class="btn-close"></button>
     </div>
-</div>
+    <div class="modal-body grid">
+        <div class="form-floating g-col-12">
+            <textarea id="why_deleted" name="why_deleted" class="form-control" style="height: 100px;"></textarea>
+            <label for="remark">
+                Justification
+            </label>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" data-bs-dismiss="modal" class="btn btn-sm btn-secondary">
+            Close
+        </button>
+        <button type="submit" id="submit" name="submit" class="btn btn-sm btn-danger">
+            Delete
+        </button>
+    </div>
+</form>
+<script type="text/javascript">
+    jq(document).ready(function() {
+        jq('#onDeleteFrom').on('submit', function (e) {
+            e.preventDefault(); // Prevent default form submission
+
+            // Collect form data and create a JSON object
+            var formData = {};
+            jq('#onDeleteFrom').serializeArray().forEach(function(item) {
+                formData[item.name] = item.value;
+            });
+
+            // Make the AJAX POST request
+            jq.ajax({
+                type: 'DELETE',
+                url: "/call_log/delete/{{call_log_id}}/",
+                contentType: 'application/json',
+                data: JSON.stringify(formData),
+                headers: {
+                    "X-CSRFToken": csrftoken
+                },
+                contentType: 'application/json',
+                success: function (response) {
+                    console.log('Success:', response);
+                },
+                error: function (error) {
+                    console.log('Error:', error);
+                }
+            });
+        });
+    });
+</script>
